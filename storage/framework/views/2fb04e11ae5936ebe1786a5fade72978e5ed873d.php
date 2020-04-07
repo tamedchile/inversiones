@@ -7,9 +7,7 @@
       </div>
         <!-- /.page title -->
         <!-- .breadcrumb -->
-        <div class="" style="float:right">
-            hola
-        </div>
+
         <!-- /.breadcrumb -->
     </div>
 <?php $__env->stopSection(); ?>
@@ -219,8 +217,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Teléfono móvil</label>
-                                            <input type="tel" name="mobile" id="mobile" class="form-control"
-                                                   value="<?php echo e($clientDetail->mobile); ?>">
+                                            <input type="tel" name="mobile" id="mobile" class="form-control" value="<?php echo e($clientDetail->mobile); ?>">
                                         </div>
                                     </div>
 
@@ -229,8 +226,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">Dirección</label>
-                                            <input type="text" name="address" id="address" rows="5"
-                                              value="<?php if(!empty($clientDetail)): ?><?php echo e($clientDetail->address); ?><?php endif; ?>"        class="form-control">
+                                            <input type="text" name="address" id="address" rows="5" value="<?php echo e($clientDetail->address); ?>" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -385,20 +381,17 @@
 
     <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+      <br><br><br>
       <div class="modal-body">
-        ...
+        El texto editar sobre cada uno de los apartados permite que se desplique el formulario correspondiente para permitir actualizar los datos <br>
+        el textp cerrar permite volver a la vista de revision de datos en cada apartado <br>
+         la imagen <img src="<?php echo e(asset('img/remove.png')); ?>" alt="faltan datos" width="20px"> indica que en alguno de los apartados aun faltan datos por diligenciar <br>
+         la imagen <img src="<?php echo e(asset('img/correct.png')); ?>" alt="faltan datos" width="20px"> indica que los datos han sido diligenciados en su totalidad, a partir de este momento se cerrara la tarea y podras avanzar en tu proceso.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
       </div>
     </div>
   </div>
@@ -407,8 +400,8 @@
 
 <?php $__env->startPush('footer-script'); ?>
 <script>
-    $('#mostrar_modal').click(function () {
-        $('exampleModal').modal();
+    $( document ).ready(function() {
+    $('#exampleModal').modal('toggle')
     });
 
     $('#save-form').click(function () {

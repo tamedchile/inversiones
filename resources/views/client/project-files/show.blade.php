@@ -22,6 +22,7 @@
 @push('head-script')
 
 <link rel="stylesheet" href="{{ asset('plugins/bower_components/dropzone-master/dist/dropzone.css') }}">
+<link rel="stylesheet" href="{{ asset('css/docu.css') }}">
 <style>
     .file-bg {
         height: 150px;
@@ -37,6 +38,7 @@
         height: 100%;
         text-align: center;
     }
+
 </style>
 @endpush
 
@@ -44,7 +46,71 @@
 
     <div class="row abajo-titulo">
         <div class="col-md-12">
+            <div id="page-content">
+              <div class="comp-documents" >
+                    <div id="content" class="completed-docs">
+                        <div class="page-title m-b-40" style="color: #fff; text-transform: none">
+                            <img src="{{asset('img/icon-completed-doc.png')}}" style="vertical-align: sub" alt="">&nbsp; Mis documentos
+                            <img src="{{asset('img/docs-completed-banner.png')}}" class="banner-img img-responsive pull-right" alt="">
+                            <h1 class="big-title text-white" style="font-size: 32px">Ahora que estás en este paso, debes subir los documentos que se indican abajo para poder comenzar</h1>
+                            <p class="text-white">Estos documentos estarán protejidos y solo podran ser vistos por ti como usuario y nosotros.</p>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="list m-t-80" style="position: relative;">
+                            <div class="grid hover-effect">
+                                <div class="col col-3" style="order: -1">
+                                    <div class="inner js-link-open-document  " data-popover-id="">
+                                        <img src="{{asset('img/meeting-minute.png')}}">
+                                        <div class="title">
+                                            Subir liquidaciones de sueldo
+                                        </div>
+                                        <p>A comprehensive package of all the licenses, permits and tax registrations required for your business as well as the application forms to file with the appropriate licensing authorities.</p>
+                                        <p style="flex: 0; margin: 0;">
+                                            <a href="javascript:void(0)" data-doc-id="6" data-url-open-document="https://www.incfile.com/dashboard/documents/ly1q315sk9z4y4wtwfjqrkb1tgxm008fka07ml370mafdqa8aknv2c7j9rx4fa907v18jnt1m2cff7abfgd4dd19" data-document-name="Business License Research Package" class="btn btn-round m-b-15  btn-outline-red btn-view-doc">Ver documentos</a>
+                                        </p>
+                                        <p style="flex: 0; margin: 0;">
+                                            <a href="javascript:;" id="show-dropzone" class="btn btn-round m-b-15  btn-outline-green btn-view-doc">Cargar</a>
+                                        </p>
+                                        <div class="row m-b-20 hide" id="file-dropzone">
+                                            <div class="col-md-12">
+                                                <form action="{{ route('client.files.store') }}" class="dropzone"
+                                                      id="file-upload-dropzone">
+                                                    {{ csrf_field() }}
 
+                                                    {!! Form::hidden('project_id', $project->id) !!}
+
+                                                    <input name="view" type="hidden" id="view" value="list">
+                                                    <input name="view" type="hidden" id="tipo_doc" value="list">
+                                                    <div class="fallback">
+                                                        <input name="file" type="file" multiple/>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="modelDocument">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title">Modal title</h4>
+                                    </div>
+                                    <div class="modal-body" style="padding-bottom:0">
+                                        <p>One fine body…</p>
+                                    </div>
+                                    <div class="modal-footer" style="border:none; padding-right: 25px">
+                                        <button type="button" class="btn btn-green" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
             <section>
                 <div class="sttabs tabs-style-line">
 

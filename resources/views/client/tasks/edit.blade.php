@@ -28,8 +28,22 @@
                       <link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
                       <div class="row">
                         <div class="col-md-7" style="padding: 100px">
+                          @if( $user->tareas($user->id) > 2)
                           <h3 class="default-title">Bienvenido a TAMED, el portal digital de tus inversiones inmobiliarias</h3>
-                          <p class="m-t-15">Nos alegra que estés tomando la decisión de comprar una propiedad. Te apoyaremos en todo este proceso haciéndolo más eficiente y seguro, para tu conveniencia 😀 Comencemos completando los datos de tu cuenta.</p>
+                          @elseif($user->tareas($user->id) < 3 || $user->tareas($user->id) > 1 )
+                          <h3 class="default-title">¡Excelente! Has terminado el primer paso.</h3>
+                          @endif
+                          @if( $user->tareas($user->id) > 2)
+                          <p class="m-t-15">Nos alegra que estés tomando la decisión de comprar una propiedad.
+                            Te apoyaremos en todo este proceso haciéndolo más eficiente y seguro, para tu conveniencia 😀
+                            Comencemos completando los datos de tu cuenta.
+                          </p>
+                          @elseif($user->tareas($user->id) < 3 || $user->tareas($user->id) > 1 )
+                          <p class="m-t-15">Ahora vamos a evaluar tu capacidad crediticia. Iniciarás
+                             una encuesta que te permitirá saber, preliminarmente,
+                             cuántas UF podemos conseguir para lograr tu objetivo.
+                          </p>
+                          @endif
                         </div>
                         <div class="col-md-5">
                             <?php
@@ -106,16 +120,16 @@
                               </a>
                           </li>
                           @endif
-                          <li class="">
+                          <li class="@if( $user->tareas($user->id) < 3 ) active @endif">
                               <a href="#tab_domain_business_email" data-toggle="tab" aria-expanded="false">
                                   <img src="{{asset('img/form.png')}}" alt="">
-                                  <span>Diligencia el formulario de</span>
+                                  <span>Diligencia el formulario de EESS</span>
                               </a>
                           </li>
                           <li class="">
                               <a href="#tab_business_website" data-toggle="tab" aria-expanded="false">
                                 <img src="{{asset('img/folder.png')}}" alt="">
-                                <span>Business Website</span>
+                                <span>Subir documentos</span>
                               </a>
                           </li>
                       </ul>
@@ -158,10 +172,11 @@
                                   </div>
                               </div>
                           </div>
-                          <div class="tab-pane" id="tab_domain_business_email">
+
+                          <div class="tab-pane @if( $user->tareas($user->id) < 3 ) active @endif" id="tab_domain_business_email">
                               <div class="item open" id="js_item_box_9">
                                   <div class="item-heading">
-                                      <span class="title">Setup Your Domain Name &amp; Business Email Address</span>
+                                      <span class="title">Debes diligenciar el formulario para poder evaluar tu capacidad preliminar de inversión</span>
                                       <span class="explain pull-right">This item was included with your purchased package.</span>
                                   </div>
                                   <div class="item-desc">
@@ -181,26 +196,17 @@
                                                           <div class="t">Professional Email on Business Cards</div>
                                                           <p>Build brand consistency with every new person you meet by having a professional email.</p>
                                                       </li>
-                                                      <li class="cohesive-card">
-                                                          <div class="t">Cohesive Brand Experience</div>
-                                                          <p>Create a cohesive brand experience with every email message you send.</p>
-                                                      </li>
+
                                                   </ul>
                                               </div>
                                               <div class="col-lg-6 right">
                                                   <p class="m-tlg-50 text-center">
                                                       <img src="/static/order/dashboard//img/action_items/domain-email/webcom.png" alt="">
                                                   </p>
-                                                  <button href="javascript:void(0)" onclick="ActionItemComponent.completed(9, initialData.order.transnum, 'webcom')" id="toggle_domain_business_email" class="btn btn-green btn-block m-t-20 m-b-40 text-uppercase" style="white-space: inherit;">Get Started
-                                                  </button>
-                                                  <div>
-                                                      <div class="checkbox checkbox-default">
-                                                          <input type="checkbox" class="no_longer" id="chk_no_longer_domain_email" value="toggle_domain_business_email">
-                                                          <label for="chk_no_longer_domain_email">I no longer need a domain or business email address.</label>
-                                                      </div>
-                                                      <div class="clearfix"></div>
-                                                      <button onclick="ActionItemComponent.noLonger(9, 'webcom')" class="btn btn-round btn-green btn-xs m-t-15 hide" style="padding:3px 15px">Confirm</button>
-                                                  </div>
+                                                  <a href="#"  class="btn btn-green btn-block m-t-20 m-b-40 text-uppercase" style="white-space: inherit;">
+                                                    Diligenciar Formulario EESS
+                                                  </a>
+
                                               </div>
                                           </div>
                                       </div>
@@ -223,7 +229,7 @@
                           <div class="tab-pane" id="tab_business_website">
                               <div class="item open" id="js_item_box_3">
                                   <div class="item-heading">
-                                      <span class="title">Receive Business Website</span>
+                                      <span class="title">A contionu</span>
                                       <span class="explain pull-right">This item was included with your purchased package.</span>
                                   </div>
                                   <div class="item-desc">
@@ -268,8 +274,9 @@
                                                       <img src="/static/order/dashboard//img/action_items/snipermonkey-logo.png" alt="">
                                                   </p>
                                                   <p class="m-t-30">Fill out your intake form as the next step in receiving your business website.</p>
-                                                  <button href="javascript:void(0)" onclick="ActionItemComponent.completed(3, initialData.order.transnum, 'Snapweb')" id="toggle_business_website_btn" class="btn btn-green btn-block m-t-b-40 text-uppercase" style="white-space: inherit;">Get Started - View Website Templates
-                                                  </button>
+                                                  <a href="javascript:void(0)" class="btn btn-green btn-block m-t-b-40 text-uppercase" style="white-space: inherit;">
+                                                    Subir documentos
+                                                  </a>
                                                   <p class="bold">
                                                       <span>All websites are subject to snapweb.com’s $20/month hosting rate.</span>
                                                       <span class="m-t-20" style="display: block">

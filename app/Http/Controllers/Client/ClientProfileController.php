@@ -99,13 +99,8 @@ class ClientProfileController extends ClientBaseController
         $user->email = $request->email;
         $user->save();
 
-        $validate = Validator::make(['address' => $request->address], [
-            'address' => 'required'
-        ]);
 
-        if($validate->fails()){
-            return Reply::formErrors($validate);
-        }
+
         $client2 = ClientDetails::where('user_id', $user->id)->first();
         $client = DB::table('client_details')->where('user_id', $user->id)->update([
           'name' => $request->pnombre.' '.$request->papellido,
