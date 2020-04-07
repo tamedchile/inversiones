@@ -205,4 +205,12 @@ class ClientProfileController extends ClientBaseController
 
         return Reply::success(__('messages.companyChanged'));
     }
+
+    public function form(){
+
+        $this->userDetail = auth()->user();
+        $this->clientDetail = ClientDetails::where('user_id', '=', $this->userDetail->id)->first();
+        return view('client.tasks.form', $this->data);
+
+    }
 }

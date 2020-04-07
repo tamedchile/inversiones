@@ -226,6 +226,9 @@
             <!-- <li><a href="{{ route('client.dashboard.index') }}" class="waves-effect"><i class="icon-speedometer"></i> <span class="hide-menu">@lang('app.menu.dashboard') </span></a> </li> -->
               <li class="titulo-menu">ACCIONES</li>
               <li><a href="{{ route('client.tasks.edit', 1) }}" class="waves-effect"><i class="ti-layout-list-thumb"></i> <span class="hide-menu">@lang('app.menu.tasks') @if ($user->incompleteTasks($user->id) > 0 )</span><span class="badge badge-danger top-notification-count">{{ $user->tareas($user->id) }}</span>@endif</a> </li>
+
+              <li><a href="{{ route('client.form', 1) }}" class="waves-effect"><i class="ti-layout-list-thumb"></i>Formulario EESS<span class="hide-menu"></span></a> </li>
+
               <li class="titulo-menu">DETALLES DE LA CUENTA</li>
               <li><a href="{{ route('client.profile.index') }}"><i class="ti-user" style="margin-right: 5px"></i>Información del Cliente</a></li>
               @if(in_array('projects',$modules))

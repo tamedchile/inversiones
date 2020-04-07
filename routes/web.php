@@ -986,6 +986,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('dashboard', 'ClientDashboardController');
 
         Route::resource('profile', 'ClientProfileController');
+        Route::get('form', ['uses' => 'ClientProfileController@form'])->name('form');
 
         // Project section
         Route::get('projects/data', ['uses' => 'ClientProjectsController@data'])->name('projects.data');
