@@ -1,0 +1,3 @@
+<?php $__currentLoopData = $allTasks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $allTask): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <option value="<?php echo e($allTask->id); ?>"><?php echo e($allTask->heading); ?> (<?php echo app('translator')->get('app.dueDate'); ?>: <?php echo e($allTask->due_date->format($global->date_format)); ?>)</option>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php /**PATH /home/inversiones.tamed.global/public_html/dashboard/resources/views/admin/tasks/dependent-task-list.blade.php ENDPATH**/ ?>
