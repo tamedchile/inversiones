@@ -987,6 +987,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::resource('profile', 'ClientProfileController');
         Route::get('form', ['uses' => 'ClientProfileController@form'])->name('form');
+        Route::get('cotizacionesRecibidas', ['uses' => 'ClientFilesController@recibidas'])->name('cotizacionesRecibidas');
 
         // Project section
         Route::get('projects/data', ['uses' => 'ClientProjectsController@data'])->name('projects.data');
@@ -1003,6 +1004,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('files/download/{id}', ['uses' => 'ClientFilesController@download'])->name('files.download');
             Route::get('files/thumbnail', ['uses' => 'ClientFilesController@thumbnailShow'])->name('files.thumbnail');
             Route::resource('files', 'ClientFilesController');
+
 
             Route::get('time-log/data/{id}', ['uses' => 'ClientTimeLogController@data'])->name('time-log.data');
             Route::resource('time-log', 'ClientTimeLogController');

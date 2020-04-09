@@ -236,6 +236,9 @@
               @endif
               <li class="titulo-menu">MIS DOCUMENTOS</li>
               <li><a href="{{ route('client.files.show', 1) }}" class="waves-effect"><i class="icon-doc"></i> <span class="hide-menu">@lang('modules.projects.files') </span></a> </li>
+
+              <li><a href="{{ route('client.cotizacionesRecibidas', 1) }}" class="waves-effect"><i class="icon-doc"></i> <span class="hide-menu">Cotizaciones recibidas</span></a> </li>
+
             @if(in_array('products',$modules))
                 <li><a href="{{ route('client.products.index') }}" class="waves-effect"><i class="icon-layers"></i> <span class="hide-menu">@lang('app.menu.products') </span> @if($unreadProjectCount > 0) <div class="notify notification-color"><span class="heartbit"></span><span class="point"></span></div>@endif</a> </li>
             @endif

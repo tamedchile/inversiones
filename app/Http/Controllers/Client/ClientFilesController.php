@@ -262,4 +262,20 @@ class ClientFilesController extends ClientBaseController
             }
         }
     }
+
+    public function recibidas(){
+
+        $id=1;
+
+    if ($id == 1){
+        $proyecto = DB::table('projects')->where('client_id', $this->user->id)->first();
+        $this->project = Project::findOrFail($proyecto->id);
+        if($this->project->checkProjectClient()){
+            return view('client.project-files.show', $this->data);
+        }
+        else{
+            return redirect(route('client.dashboard.index'));
+        }
+      }
+    }
 }

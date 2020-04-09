@@ -25,11 +25,11 @@
             <section>
                       <link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
                       <div class="row">
-                        <div class="col-md-7" style="padding: 100px">
+                        <div class="col-md-7" style="padding: 100px; padding-left: 30px;">
                           <?php if( $user->tareas($user->id) > 2): ?>
                           <h3 class="default-title">Bienvenido a TAMED, el portal digital de tus inversiones inmobiliarias</h3>
                           <?php elseif($user->tareas($user->id) < 3 || $user->tareas($user->id) > 1 ): ?>
-                          <h3 class="default-title">¡Excelente! Has terminado el primer paso.</h3>
+                          <h4 class="default-title">¡Excelente! Has terminado el primer paso.</h4>
                           <?php endif; ?>
                           <?php if( $user->tareas($user->id) > 2): ?>
                           <p class="m-t-15">Nos alegra que estés tomando la decisión de comprar una propiedad.
@@ -43,7 +43,8 @@
                           </p>
                           <?php endif; ?>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-3" >
+
                             <?php
 
                               if ($project->completion_percent < 50) {
@@ -56,9 +57,9 @@
                               $statusColor = '#58DB8C';
                               }
                               ?>
-                            <div class="gauge">
+                            <div class="gauge" >
                               <ul class="meter">
-                                <li class="low" style="background-color: <?php  echo $statusColor;?>"></li>
+                                <li class="low" style="background-color: <?php  echo $statusColor;?>;"></li>
                                 <li class="normal" style="background-color: <?php  echo $statusColor;?>"></li>
                                 <li class="high" style="background-color: <?php  echo $statusColor;?>"></li>
                               </ul>
