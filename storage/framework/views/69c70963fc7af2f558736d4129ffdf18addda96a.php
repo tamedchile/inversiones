@@ -1,4 +1,5 @@
 <?php $__env->startSection('page-title'); ?>
+<meta name="csrf-token" content="to2Ygbi4DxexeSoG6yASwdd6MSBnrGVLmzjESSbn">
 <div class="row bg-title top-left-part2" >
     <!-- .page title -->
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
@@ -15,6 +16,7 @@
         </div>
         <!-- /.breadcrumb -->
     </div>
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('head-script'); ?>
@@ -52,6 +54,7 @@
                             <img src="<?php echo e(asset('img/docs-completed-banner.png')); ?>" class="banner-img img-responsive pull-right" alt="">
                             <h1 class="big-title text-white" style="font-size: 32px">Ahora que estás en este paso, debes subir los documentos que se indican abajo para poder comenzar</h1>
                             <p class="text-white">Estos documentos estarán protejidos y solo podran ser vistos por ti como usuario y nosotros.</p>
+                            <input name="id_cliente" type="hidden" id="id_cliente" value="<?php echo e($cliente->user_id); ?>">
                         </div>
                         <div class="clearfix"></div>
                         <div class="list m-t-80" style="position: relative;">
@@ -62,48 +65,41 @@
                                         <div class="title">
                                             Subir liquidaciones de sueldo
                                         </div>
-                                        <p>A comprehensive package of all the licenses, permits and tax registrations required for your business as well as the application forms to file with the appropriate licensing authorities.</p>
                                         <p style="flex: 0; margin: 0;">
-                                            <a href="javascript:void(0)" data-doc-id="6" data-url-open-document="https://www.incfile.com/dashboard/documents/ly1q315sk9z4y4wtwfjqrkb1tgxm008fka07ml370mafdqa8aknv2c7j9rx4fa907v18jnt1m2cff7abfgd4dd19" data-document-name="Business License Research Package" class="btn btn-round m-b-15  btn-outline-red btn-view-doc">Ver documentos</a>
+                                            <a href="javascript:void(0)" class="btn btn-round m-b-15  btn-outline-red btn-view-doc" onclick="">Ver Documentos</a>
                                         </p>
                                         <p style="flex: 0; margin: 0;">
-                                            <a href="javascript:;" id="show-dropzone" class="btn btn-round m-b-15  btn-outline-green btn-view-doc">Cargar</a>
+                                            <button type="submit" class="btn btn-round m-b-15  btn-outline-green btn-view-doc" onclick="desplegarLiquidacion1()">Subir archivo</button>
                                         </p>
-                                        <div class="row m-b-20 hide" id="file-dropzone">
+                                        <center><img id="loading_pdf" style="display: none;" src="<?php echo e(asset('img/loading.gif')); ?>" class="img-responsive"></center>
+                                        <br>
+                                        <br>
+                                        <div class="row m-b-12 " hidden="" id="liquidacion1">
                                             <div class="col-md-12">
-                                                <form action="<?php echo e(route('client.files.store')); ?>" class="dropzone"
-                                                      id="file-upload-dropzone">
-                                                    <?php echo e(csrf_field()); ?>
-
-
-                                                    <?php echo Form::hidden('project_id', $project->id); ?>
-
-
-                                                    <input name="view" type="hidden" id="view" value="list">
-                                                    <input name="view" type="hidden" id="tipo_doc" value="list">
-                                                    <div class="fallback">
-                                                        <input name="file" type="file" multiple/>
+                                                <form enctype="multipart/form-data">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group m-b">
+                                                                <input name="file" type="file" id="docLiquidacion1" multiple />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group">
+                                                                <p style="flex: 0; margin: 0;">
+                                                                    <button type="button" class="btn btn-info btn-block btn-lg" id="subirLiquidacion"><i class="fa fa-upload"></i> <span class="bold">Cargar</span></button>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                        </div>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="modelDocument">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                        <h4 class="modal-title">Modal title</h4>
-                                    </div>
-                                    <div class="modal-body" style="padding-bottom:0">
-                                        <p>One fine body…</p>
-                                    </div>
-                                    <div class="modal-footer" style="border:none; padding-right: 25px">
-                                        <button type="button" class="btn btn-green" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                             </div>
@@ -111,120 +107,21 @@
                     </div>
                 </div>
               </div>
-            <section>
-                <div class="sttabs tabs-style-line">
-
-                    <div class="content-wrap">
-                        <section id="section-line-3" class="show">
-                            <div class="row">
-                                <div class="col-md-12" id="files-list-panel">
-                                    <div class="white-box">
-                                        <h2><?php echo app('translator')->get('modules.projects.files'); ?></h2>
-
-                                        <div class="row m-b-10">
-                                            <div class="col-md-12">
-                                                <a href="javascript:;" id="show-dropzone"
-                                                   class="btn btn-success btn-outline"><i class="ti-upload"></i> <?php echo app('translator')->get('modules.projects.uploadFile'); ?></a>
-                                            </div>
-                                        </div>
-
-                                        <div class="row m-b-20 hide" id="file-dropzone">
-                                            <div class="col-md-12">
-                                                <form action="<?php echo e(route('client.files.store')); ?>" class="dropzone"
-                                                      id="file-upload-dropzone">
-                                                    <?php echo e(csrf_field()); ?>
-
-
-                                                    <?php echo Form::hidden('project_id', $project->id); ?>
-
-
-                                                    <input name="view" type="hidden" id="view" value="list">
-
-                                                    <div class="fallback">
-                                                        <input name="file" type="file" multiple/>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <ul class="nav nav-tabs" role="tablist" id="list-tabs">
-                                            <li role="presentation" class="active nav-item" data-pk="list"><a href="#list" class="nav-link" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> List</span></a></li>
-                                            <li role="presentation" class="nav-item" data-pk="thumbnail"><a href="#thumbnail" class="nav-link thumbnail" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Thumbnail</span></a></li>
-                                        </ul>
-                                        <!-- Tab panes -->
-                                        <div class="tab-content">
-                                            <div role="tabpanel" class="tab-pane active" id="list">
-                                                <ul class="list-group" id="files-list">
-                                                    <?php $__empty_1 = true; $__currentLoopData = $project->files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $file): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-md-9">
-                                                                    <?php echo e($file->filename); ?>
-
-                                                                </div>
-                                                                <div class="col-md-3">
-
-                                                                        <a target="_blank" href="<?php echo e(asset_url_local_s3('project-files/'.$project->id.'/'.$file->filename)); ?>"
-                                                                           data-toggle="tooltip" data-original-title="View"
-                                                                           class="btn btn-info btn-circle"><i
-                                                                                    class="fa fa-search"></i></a>
-
-
-                                                                    <?php if(is_null($file->external_link)): ?>
-                                                                    <a href="<?php echo e(route('client.files.download', $file->id)); ?>"
-                                                                       data-toggle="tooltip" data-original-title="Download"
-                                                                       class="btn btn-default btn-circle"><i
-                                                                                class="fa fa-download"></i></a>
-
-
-                                                                    <?php if($file->user_id == $user->id): ?>
-                                                                        &nbsp;
-                                                                        <a href="javascript:;" data-toggle="tooltip" data-original-title="Delete" data-file-id="<?php echo e($file->id); ?>" class="btn btn-danger btn-circle sa-params" data-pk="list"><i class="fa fa-times"></i></a>
-                                                                    <?php endif; ?>
-                                                                    <?php endif; ?>
-
-                                                                    <span class="m-l-10"><?php echo e($file->created_at->diffForHumans()); ?></span>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                                        <li class="list-group-item">
-                                                            <div class="row">
-                                                                <div class="col-md-10">
-                                                                    <?php echo app('translator')->get('messages.noFileUploaded'); ?>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    <?php endif; ?>
-
-                                                </ul>
-                                            </div>
-                                            <div role="tabpanel" class="tab-pane" id="thumbnail">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </section>
-
-                    </div><!-- /content -->
-                </div><!-- /tabs -->
-            </section>
         </div>
-
-
     </div>
     <!-- .row -->
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('footer-script'); ?>
 <script src="<?php echo e(asset('plugins/bower_components/dropzone-master/dist/dropzone.js')); ?>"></script>
-<script>
+
+<!--script>
     $('#show-dropzone').click(function () {
         $('#file-dropzone').toggleClass('hide show');
+    });
+    $('#show-dropzone2').click(function () {
+        $('#file-dropzone2').toggleClass('hide show');
     });
 
     $("body").tooltip({
@@ -243,10 +140,21 @@
             this.on("success", function (file, response) {
                 var viewName = $('#view').val();
                 if(viewName == 'list') {
-                    $('#files-list-panel ul.list-group').html(response.html);
+                    Dropzone.forElement('#file-upload-dropzone2').removeAllFiles(true);
+                    toastr.options = {
+                                "debug": false,
+                                "newestOnTop": false,
+                                "positionClass": "toast-top-center",
+                                "closeButton": true,
+                                "fadeIn": 300,
+                                "fadeOut": 400,
+                                "timeOut": 500,
+                                "toastClass": "animated fadeInDown",
+                            };
+                            toastr.info('Liquidación de sueldo subida correctamente.');
+                    //$('#files-list-panel ul.list-group').html(response.html);
                 } else {
-                    $('#thumbnail').empty();
-                    $(response.html).hide().appendTo("#thumbnail").fadeIn(500);
+                    alert('hola');
                 }
             })
         }
@@ -318,6 +226,80 @@
                 });
             }
         });
+    });
+
+</script-->
+
+<script type="text/javascript">
+
+    function desplegarLiquidacion1(){
+
+        $("#liquidacion1").fadeIn("slow");
+
+    }
+
+
+    
+    $('#subirLiquidacion').on('click', function(e) {
+        e.preventDefault();
+
+
+       var documento = $('#docLiquidacion1').val();
+       var cliente_id = $('#id_cliente').val();
+       var extension = documento.substring(documento.lastIndexOf("."));
+       var archivo_pdf = $('input[id="docLiquidacion1"]')[0].files[0];
+
+
+       var formData = new FormData();
+       formData.append('archivo_pdf', archivo_pdf);
+       formData.append('cliente_id', cliente_id);
+
+       
+
+       $('#loading_pdf').css("display", "block");
+       $.ajaxSetup({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           }
+       });
+       $.ajax({
+           url: "subirLiquidaciones",
+           type: 'GET',
+           processData: false,
+           contentType: false,
+           data: formData,
+           success: function(data){
+               console.log(data);
+               //console.log(data.respuesta);
+               //if(data.respuesta === 0){
+               //    $('#loading_pdf').css("display", "none");
+               //    $('#liquidacion1').modal('hide');
+               //    toastr.options = {
+               //        "debug": false,
+               //        "newestOnTop": false,
+               //        "positionClass": "toast-top-center",
+               //        "closeButton": true,
+               //        "toastClass": "animated fadeInDown",
+               //    };
+               //    toastr.success('Liquidación cargada');
+               //} else {
+               //    $('#loading_pdf').css("display", "none");
+               //    toastr.options = {
+               //        "debug": false,
+               //        "newestOnTop": false,
+               //        "positionClass": "toast-top-center",
+               //        "closeButton": true,
+               //        "toastClass": "animated fadeInDown",
+               //    };
+               //    toastr.error('Error en cargar liquidación');
+               //}
+           },
+           error: function(xhr){
+               console.log(xhr.responseText);
+               $('#loading_pdf').css("display", "none");
+           },
+       });
+      
     });
 
 </script>

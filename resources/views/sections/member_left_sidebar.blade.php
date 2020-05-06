@@ -135,6 +135,8 @@
                 <li><a href="{{ route('member.products.index') }}" class="waves-effect"><i class="icon-basket"></i> <span class="hide-menu">@lang('app.menu.products') </span></a> </li>
             @endif
 
+            <li><a href="{{ route('ver_clientes') }}" class="waves-effect"><i class="icon-basket"></i> <span class="hide-menu">Listado clientes</span></a> </li>
+
             @if(in_array('tasks',$modules))
             <li><a href="{{ route('member.task.index') }}" class="waves-effect"><i class="ti-layout-list-thumb"></i> <span class="hide-menu"> @lang('app.menu.tasks') <span class="fa arrow"></span> </span></a>
                 <ul class="nav nav-second-level">

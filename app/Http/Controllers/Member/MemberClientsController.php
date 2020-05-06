@@ -379,4 +379,10 @@ class MemberClientsController extends MemberBaseController
             });
         })->download('xlsx');
     }
+
+    public function ver_clientes(){
+
+        return 0;
+
+    }
 }

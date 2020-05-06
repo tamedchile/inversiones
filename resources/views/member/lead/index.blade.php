@@ -30,22 +30,7 @@
 
 @section('content')
 
-    <div class="row dashboard-stats">
-        <div class="col-md-12 m-b-30">
-            <div class="white-box">
-                <div class="col-md-4 text-center">
-                    <h4><span class="text-dark">{{ $totalLeads }}</span> <span class="font-12 text-muted m-l-5"> @lang('modules.dashboard.totalLeads')</span></h4>
-                </div>
-                <div class="col-md-4 text-center b-l">
-                    <h4><span class="text-info">{{ $totalClientConverted }}</span> <span class="font-12 text-muted m-l-5"> @lang('modules.dashboard.totalConvertedClient')</span></h4>
-                </div>
-                <div class="col-md-4 text-center b-l">
-                    <h4><span class="text-warning">{{ $pendingLeadFollowUps }}</span> <span class="font-12 text-muted m-l-5"> @lang('modules.dashboard.totalPendingFollowUps')</span></h4>
-                </div>
-            </div>
-        </div>
 
-    </div>
 
     <div class="row">
 
@@ -54,64 +39,42 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            @if($user->can('add_lead'))
-                                <a href="{{ route('member.leads.create') }}" class="btn btn-outline btn-success btn-sm">@lang('modules.lead.addNewLead') <i class="fa fa-plus" aria-hidden="true"></i></a>
-                            @endif
-                            @if($user->can('view_lead'))
-                                <a href="javascript:;" id="toggle-filter" class="btn btn-outline btn-danger btn-sm toggle-filter"><i
-                                        class="fa fa-sliders"></i> @lang('app.filterResults')</a>
-                            @endif
                         </div>
                     </div>
                 </div>
-                @if($user->can('view_lead'))
-                    @section('filter-section') 
-                    <div class="row"  id="ticket-filters">
-                     
-                        <form action="" id="filter-form">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="control-label">@lang('modules.lead.client')</label>
-                                    <select class="form-control selectpicker" name="client" id="client" data-style="form-control">
-                                        <option value="all">@lang('modules.lead.all')</option>
-                                        <option value="lead">@lang('modules.lead.lead')</option>
-                                        <option value="client">@lang('modules.lead.client')</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="control-label">@lang('modules.lead.followUp')</label>
-                                    <select class="form-control selectpicker" name="followUp" id="followUp" data-style="form-control">
-                                        <option value="all">@lang('modules.lead.all')</option>
-                                        <option value="pending">@lang('modules.lead.pending')</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="control-label col-xs-12">&nbsp;</label>
-                                    <button type="button" id="apply-filters" class="btn btn-success col-md-6"><i class="fa fa-check"></i> @lang('app.apply')</button>
-                                    <button type="button" id="reset-filters" class="btn btn-inverse col-md-5 col-md-offset-1"><i class="fa fa-refresh"></i> @lang('app.reset')</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    @endsection
-                @endif
                 <div class="table-responsive">
                 <table class="table table-bordered table-hover toggle-circle default footable-loaded footable" id="users-table">
                     <thead>
                     <tr>
                         <th>@lang('app.id')</th>
                         <th>@lang('app.clientName')</th>
-                        <th>@lang('modules.lead.companyName')</th>
-                        <th>@lang('app.createdOn')</th>
-                        <th>@lang('modules.lead.nextFollowUp')</th>
                         <th>@lang('app.status')</th>
                         <th>@lang('app.action')</th>
                     </tr>
                     </thead>
+                    <tbody>
+                        @if(count($cliente)>0)
+                            @foreach ($cliente as $dato)
+                            <tr>
+                                <th>{{ $dato['id'] }}</th>
+                                <th>{{$dato['nombre']}}</th>
+                                <th>{{$dato['numero']}}</th>
+                                @if($dato['llamado'] === 0)
+                                <th> <center> <button onclick="usuarioContesto({{ $dato['id'] }})"  id="save-form" class="btn btn-success"><i class="fa fa-check"></i> Contestó</button> </center> </th>
+                                @else
+                                <th></th>
+                                @endif
+                                
+                            </tr>
+                            @endforeach
+                        @else
+
+                            <tr>
+                                No tienes clientes asociados
+                            </tr>
+
+                        @endif
+                    </tbody>
                 </table>
                     </div>
             </div>
@@ -149,89 +112,6 @@
     <script src="//cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
     <script src="//cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
     <script>
-        var table;
-        $(function() {
-            tableLoad();
-            $('#reset-filters').click(function () {
-                $('#filter-form')[0].reset();
-                $('#filter-form').find('select').selectpicker('render');
-                tableLoad();
-            })
-            var table;
-        $('#apply-filters').click(function () {
-            tableLoad();
-        });
-      function tableLoad() {
-          var client = $('#client').val();
-          var followUp = $('#followUp').val();
-
-          table = $('#users-table').dataTable({
-              responsive: true,
-              processing: true,
-              serverSide: true,
-              destroy: true,
-              stateSave: true,
-              ajax: '{!! route('member.leads.data') !!}?client='+client+'&followUp='+followUp,
-              language: {
-                  "url": "<?php echo __("app.datatable") ?>"
-              },
-              "fnDrawCallback": function( oSettings ) {
-                  $("body").tooltip({
-                      selector: '[data-toggle="tooltip"]'
-                  });
-              },
-              columns: [
-                  { data: 'DT_RowIndex', orderable: false, searchable: false },
-                  { data: 'client_name', name: 'client_name' },
-                  { data: 'company_name', name: 'company_name' },
-                  { data: 'created_at', name: 'created_at' },
-                  { data: 'next_follow_up_date', name: 'next_follow_up_date' },
-                  { data: 'status', name: 'status'},
-                  { data: 'action', name: 'action'}
-              ]
-          });
-      }
-
-
-            $('body').on('click', '.sa-params', function(){
-                var id = $(this).data('user-id');
-                swal({
-                    title: "Are you sure?",
-                    text: "You will not be able to recover the deleted lead!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, cancel please!",
-                    closeOnConfirm: true,
-                    closeOnCancel: true
-                }, function(isConfirm){
-                    if (isConfirm) {
-
-                        var url = "{{ route('member.leads.destroy',':id') }}";
-                        url = url.replace(':id', id);
-
-                        var token = "{{ csrf_token() }}";
-
-                        $.easyAjax({
-                            type: 'POST',
-                            url: url,
-                            data: {'_token': token, '_method': 'DELETE'},
-                            success: function (response) {
-                                if (response.status == "success") {
-                                    $.unblockUI();
-//                                    swal("Deleted!", response.message, "success");
-                                    table._fnDraw();
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-
-
-
-        });
 
        function changeStatus(leadID, statusID){
            var url = "{{ route('member.leads.change-status') }}";
@@ -279,5 +159,67 @@
         $('.toggle-filter').click(function () {
             $('#ticket-filters').toggle('slide');
         })
+
+
+        function usuarioContesto(id){
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: 'contesto',
+            type: 'GET',
+            data: {
+                "id": id
+            },
+            success: function(data){
+                
+                if(data == 1){
+
+
+                    toastr.options = {
+                        "debug": false,
+                        "newestOnTop": false,
+                        "positionClass": "toast-top-center",
+                        "closeButton": true,
+                        "toastClass": "animated fadeInDown",
+                    };
+                    toastr.success('Correo enviado correctramente');
+
+                    setTimeout(location.reload(),7000); 
+
+                }else{
+
+                toastr.options = {
+                    "debug": false,
+                    "newestOnTop": false,
+                    "positionClass": "toast-top-center",
+                    "closeButton": true,
+                    "toastClass": "animated fadeInDown",
+                };
+                toastr.error('Error al enviar correo, por favor intenalo de nuevo.');
+
+                }
+               
+            },
+            error: function(xhr){
+
+                console.log(xhr.responseText);
+
+                toastr.options = {
+                    "debug": false,
+                    "newestOnTop": false,
+                    "positionClass": "toast-top-center",
+                    "closeButton": true,
+                    "toastClass": "animated fadeInDown",
+                };
+                toastr.error('Error desconocido.');
+
+            },
+        });   
+
+        }
     </script>
 @endpush

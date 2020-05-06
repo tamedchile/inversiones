@@ -11,7 +11,12 @@ use App\LeadAgent;
 use App\LeadFollowUp;
 use App\LeadSource;
 use App\LeadStatus;
+use App\ClientDetails;
+use App\ProjectMember;
+use App\Project;
+use Mail;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class MemberLeadController extends MemberBaseController
@@ -58,7 +63,38 @@ class MemberLeadController extends MemberBaseController
 
         $this->pendingLeadFollowUps = $pendingLeadFollowUps->count();
 
-        return view('member.lead.index', $this->data);
+
+        $proyectos = ProjectMember::where('user_id',$this->user->id)->get();
+        $datos =[];
+
+        if(count($proyectos) > 0){
+
+            foreach ($proyectos as $proyecto) {
+            
+                $cliente_id = Project::find($proyecto->project_id);
+
+                if($cliente_id->client_id != null){
+
+                    $cliente = ClientDetails::where('user_id', $cliente_id->client_id)->first();
+
+                    $arr = array(
+                                "id" => $cliente->user_id,
+                                "nombre" => $cliente->pnombre." ".$cliente->papellido." ".$cliente->sapellido,
+                                "numero" => $cliente->mobile,
+                                "llamado" => $cliente->llamado
+                            );
+
+                    array_push($datos, $arr);
+
+
+                }
+
+            }
+
+        }
+
+
+        return view('member.lead.index', $this->data)->with('cliente', $datos);
     }
 
     /**
@@ -440,4 +476,41 @@ class MemberLeadController extends MemberBaseController
 
         return Reply::successWithData(__('messages.followUpFilter'), ['html' => $view]);
     }
+
+    public function usuarioContesto(Request $request)
+    {
+        $id = $request->id;
+
+
+        $cliente = ClientDetails::where('user_id', $id)->first();
+
+        $cliente->llamado = 1;
+
+        try {
+
+            $datosEmail = array(
+               'nombre_cliente' => $cliente->pnombre,
+               'email_cliente' => $cliente->email
+             );
+        
+             Mail::send('mail.llamada_contestada', $datosEmail, function($message) use ($datosEmail){
+               $message->from('inversiones@tamed.global', 'TAMED Inversiones');
+               $message->to($datosEmail['email_cliente'])->subject("Gracias por contestar el llamado");
+             });
+
+            $cliente->save();
+
+            return 1;
+
+
+        } catch (Exception $e) {
+
+            return 0;
+
+        }
+        
+
+    }
+
+
 }

@@ -230,16 +230,16 @@
               <li class="titulo-menu">ACCIONES</li>
               <li><a href="<?php echo e(route('client.tasks.edit', 1)); ?>" class="waves-effect"><i class="ti-layout-list-thumb"></i> <span class="hide-menu"><?php echo app('translator')->get('app.menu.tasks'); ?> <?php if($user->incompleteTasks($user->id) > 0 ): ?></span><span class="badge badge-danger top-notification-count"><?php echo e($user->tareas($user->id)); ?></span><?php endif; ?></a> </li>
 
-              <li><a href="<?php echo e(route('client.form', 1)); ?>" class="waves-effect"><i class="ti-layout-list-thumb"></i>Formulario EESS<span class="hide-menu"></span></a> </li>
+              
 
               <li class="titulo-menu">DETALLES DE LA CUENTA</li>
               <li><a href="<?php echo e(route('client.profile.index')); ?>"><i class="ti-user" style="margin-right: 5px"></i>Información del Cliente</a></li>
+              <li><a href="<?php echo e(route('client.form', 1)); ?>" class="waves-effect"><i class="ti-money"></i> Tu estado de situación <span class="hide-menu"></span></a> </li>
               <?php if(in_array('projects',$modules)): ?>
               <li><a href="<?php echo e(route('ver_asesor')); ?>/<?php echo e($id_project->id); ?>" class="waves-effect"><i class="icon-layers"></i> <span class="hide-menu">Información del Asesor</span> <?php if($unreadProjectCount > 0): ?> <div class="notify notification-color"><span class="heartbit"></span><span class="point"></span></div><?php endif; ?></a> </li>
               <?php endif; ?>
               <li class="titulo-menu">MIS DOCUMENTOS</li>
               <li><a href="<?php echo e(route('client.files.show', 1)); ?>" class="waves-effect"><i class="icon-doc"></i> <span class="hide-menu"><?php echo app('translator')->get('modules.projects.files'); ?> </span></a> </li>
-
               <li><a href="<?php echo e(route('client.cotizacionesRecibidas', 1)); ?>" class="waves-effect"><i class="icon-doc"></i> <span class="hide-menu">Cotizaciones recibidas</span></a> </li>
 
             <?php if(in_array('products',$modules)): ?>

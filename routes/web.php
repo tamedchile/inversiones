@@ -736,6 +736,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('projects/gantt/{projectId?}', ['uses' => 'MemberProjectsController@gantt'])->name('projects.gantt');
         Route::get('projects/data', ['uses' => 'MemberProjectsController@data'])->name('projects.data');
         Route::resource('projects', 'MemberProjectsController');
+        Route::get('contesto', ['uses' => 'MemberLeadController@usuarioContesto'])->name('contesto');
 
         Route::get('project-template/data', ['uses' => 'ProjectTemplateController@data'])->name('project-template.data');
         Route::resource('project-template', 'ProjectTemplateController');
@@ -974,9 +975,12 @@ Route::group(['middleware' => 'auth'], function () {
         //region Products Routes
         Route::get('products/data', ['uses' => 'MemberProductController@data'])->name('products.data');
         Route::resource('products', 'MemberProductController');
+
         //endregion
 
     });
+
+    
 
     // Client routes
     Route::group(
@@ -987,7 +991,24 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::resource('profile', 'ClientProfileController');
         Route::get('form', ['uses' => 'ClientProfileController@form'])->name('form');
+
+        Route::get('personalesEss', ['uses' => 'ClientProfileController@guardarDatosPersonales'])->name('personalesEss');
+        Route::get('motivacionEss', ['uses' => 'ClientProfileController@guardarDatosMotivacion'])->name('motivacionEss');
+        Route::get('educacionEss', ['uses' => 'ClientProfileController@guardarDatosEducacion'])->name('educacionEss');
+        Route::get('estadoCivilEss', ['uses' => 'ClientProfileController@guardarDatosEstadoCivil'])->name('estadoCivilEss');
+        Route::get('ingresosEss', ['uses' => 'ClientProfileController@guardarDatosIngresos'])->name('ingresosEss');
+        Route::get('vehiculosEss', ['uses' => 'ClientProfileController@guardarDatosVehiculos'])->name('vehiculosEss');
+        Route::get('inversionesEss', ['uses' => 'ClientProfileController@guardarDatosInversiones'])->name('inversionesEss');
+        Route::get('participacionesEss', ['uses' => 'ClientProfileController@guardarDatosParticipaciones'])->name('participacionesEss');
+        Route::get('cuentaCorrienteEss', ['uses' => 'ClientProfileController@guardarDatosCuentaCorriente'])->name('cuentaCorrienteEss');
+        Route::get('creditoConsumoEss', ['uses' => 'ClientProfileController@guardarDatosCreditoConsumo'])->name('creditoConsumoEss');
+        Route::get('propiedadesEss', ['uses' => 'ClientProfileController@guardarDatosPropiedades'])->name('propiedadesEss');
+        Route::get('calculoPreliminar', ['uses' => 'ClientProfileController@calculoMontoPreliminar'])->name('calculoPreliminar');
+
+        //Route::get('form', ['uses' => 'ClientProfileController@form'])->name('form');
         Route::get('cotizacionesRecibidas', ['uses' => 'ClientFilesController@recibidas'])->name('cotizacionesRecibidas');
+
+        Route::get('agendarLlamada', ['uses' => 'ClientProfileController@agendarLlamada'])->name('agendarLlamada');
 
         // Project section
         Route::get('projects/data', ['uses' => 'ClientProjectsController@data'])->name('projects.data');
@@ -1000,9 +1021,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('project-members', 'ClientProjectMembersController');
 
             Route::resource('tasks', 'ClientTasksController');
+            
 
             Route::get('files/download/{id}', ['uses' => 'ClientFilesController@download'])->name('files.download');
             Route::get('files/thumbnail', ['uses' => 'ClientFilesController@thumbnailShow'])->name('files.thumbnail');
+            Route::get('files/subirLiquidaciones', ['uses' => 'ClientFilesController@subirLiquidaciones'])->name('subirLiquidaciones');
             Route::resource('files', 'ClientFilesController');
 
 
@@ -1105,5 +1128,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('mark-superadmin-notification-read', ['uses' => 'SuperAdmin\NotificationController@markAllRead'])->name('mark-superadmin-notification-read');
     Route::get('show-all-super-admin-notifications', ['uses' => 'SuperAdmin\NotificationController@showAllSuperAdminNotifications'])->name('show-all-super-admin-notifications');
     Route::get('client/ver_asesor/{id?}', ['uses' => 'Client\ClientProjectMembersController@ver_asesor'])->name('ver_asesor');
+    Route::get('client/ver_clientes', ['uses' => 'Member\MemberClientsController@ver_clientes'])->name('ver_clientes');
 
 });

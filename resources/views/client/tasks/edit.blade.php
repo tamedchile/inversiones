@@ -28,21 +28,33 @@
                       <link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
                       <div class="row">
                         <div class="col-md-7" style="padding: 100px; padding-left: 30px;">
-                          @if( $user->tareas($user->id) > 2)
+                          @if( $user->tareas($user->id) === 3)
                           <h3 class="default-title">Bienvenido a TAMED, el portal digital de tus inversiones inmobiliarias</h3>
-                          @elseif($user->tareas($user->id) < 3 || $user->tareas($user->id) > 1 )
+                          @elseif($user->tareas($user->id) === 2 )
                           <h4 class="default-title">¡Excelente! Has terminado el primer paso.</h4>
+                          @elseif($user->tareas($user->id) === 1)
+                          <h4 class="default-title">¡Excelente! Gracias por completar el formulario.</h4>
+                          @elseif($user->tareas($user->id) === 0)
+                          <h4 class="default-title">¡Excelente! ... </h4>
                           @endif
-                          @if( $user->tareas($user->id) > 2)
+                          @if( $user->tareas($user->id) === 3)
                           <p class="m-t-15">Nos alegra que estés tomando la decisión de comprar una propiedad.
                             Te apoyaremos en todo este proceso haciéndolo más eficiente y seguro, para tu conveniencia 😀
                             Comencemos completando los datos de tu cuenta.
                           </p>
-                          @elseif($user->tareas($user->id) < 3 || $user->tareas($user->id) > 1 )
+                          @elseif($user->tareas($user->id) === 2 )
                           <p class="m-t-15">Ahora vamos a evaluar tu capacidad crediticia. Iniciarás
                              una encuesta que te permitirá saber, preliminarmente,
                              cuántas UF podemos conseguir para lograr tu objetivo.
                           </p>
+                          @elseif($user->tareas($user->id) === 1 )
+                          <p class="m-t-15">La informacion proporcionada nos sera de mucha utilidad para asesorarte de la mejor manera. 
+                            Ahora necesitamos que acredites la informacion proporcionada en base a los documentos solicitados.
+                          </p>
+                          @elseif($user->tareas($user->id) === 0 )
+                          <p class="m-t-15">Necesitamos contactarnos contigo, te pedimos que solicites una llamada por parte de tu asesor.
+                          Para esto <a onclick="solicitarLlamada()">has click aqui.</a></p>
+                          
                           @endif
                         </div>
                         <div class="col-md-3" >
@@ -59,7 +71,7 @@
                               $statusColor = '#58DB8C';
                               }
                               ?>
-                            <div class="gauge" >
+                            <div class="gauge">
                               <ul class="meter">
                                 <li class="low" style="background-color: <?php  echo $statusColor;?>;"></li>
                                 <li class="normal" style="background-color: <?php  echo $statusColor;?>"></li>
@@ -372,6 +384,25 @@
             </section>
         </div>
 
+            <!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#FAF9F9;">
+        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #000000">Estaremos en contacto</h5>
+      </div>
+      <input type="text" class="form-control" id="idUsuario" name="idUsuario" value=" {{$user->id}}" style="display: none">
+      <div class="modal-body">
+        <p>Ya estamos a pocos pasos, tu asesor se pondra en contacto contigo, te llamará al siguente numero: {{ $clientDetail->mobile }}, ¿Deseas agendar la llamada? </p>
+        <p>*En caso de que el numero sea incorrecto puedes editarlo en tu informacion personal.  </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background: #03a9f3; color: #fff;" onclick="agendarLlamada()">Agendar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     </div>
     <!-- .row -->
@@ -397,5 +428,44 @@
                 }
             });
         })
+    </script>
+
+    <script>
+      
+      function solicitarLlamada(id){
+
+        $('#exampleModalLong').modal('toggle')
+
+      }
+
+      function agendarLlamada(id){
+
+        id = $.trim($('#idUsuario').val());
+
+        $.ajax({
+        url: '/inversiones/public/client/agendarLlamada',
+        type: 'GET',
+        data: {
+            "id": id
+        },
+        success: function(data){
+            
+            toastr.options = {
+                "debug": false,
+                "newestOnTop": false,
+                "positionClass": "toast-top-center",
+                "closeButton": true,
+                "toastClass": "animated fadeInDown",
+            };
+            toastr.success('Tu llamada se agendo correctamente.');
+           
+        },
+        error: function(xhr){
+            console.log(xhr.responseText);
+        },
+    });
+
+      }
+
     </script>
 @endpush

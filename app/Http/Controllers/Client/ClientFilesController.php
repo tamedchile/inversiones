@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 use App\Helper\Files;
 use App\Helper\Reply;
 use App\Project;
+use App\ClientDetails;
 use DB;
 use App\ProjectFile;
 use Illuminate\Http\Request;
@@ -155,6 +156,13 @@ class ClientFilesController extends ClientBaseController
         return Reply::successWithData(__('messages.fileUploadedSuccessfully'), ['html' => $view]);
     }
 
+    public function subirLiquidaciones(Request $request)
+    {
+
+       return $request->all();
+
+    }
+
     /**
      * Display the specified resource.
      *
@@ -165,9 +173,10 @@ class ClientFilesController extends ClientBaseController
     {
       if ($id == 1){
         $proyecto = DB::table('projects')->where('client_id', $this->user->id)->first();
+        $client = ClientDetails::where('user_id',$this->user->id)->first();
         $this->project = Project::findOrFail($proyecto->id);
         if($this->project->checkProjectClient()){
-            return view('client.project-files.show', $this->data);
+            return view('client.project-files.show', $this->data)->with('cliente',$client);
         }
         else{
             return redirect(route('client.dashboard.index'));

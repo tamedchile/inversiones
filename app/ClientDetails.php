@@ -14,7 +14,7 @@ class ClientDetails extends BaseModel
     use Notifiable, CustomFieldsTrait;
 
     protected $table = 'client_details';
-    protected $fillable = ['company_name','name','pnombre','snombre','papellido','sapellido','email','rut','fijo','comuna','ciudad','user_id','address','website','note','skype','facebook','twitter','linkedin','gst_number', 'shipping_address'];
+    protected $fillable = ['company_name','name','pnombre','snombre','papellido','sapellido','email','rut','fijo','comuna','ciudad','user_id','address','website','note','skype','facebook','twitter','linkedin','gst_number', 'shipping_address','eess','nacionalidad', 'estado', 'llamado'];
 
     protected $default = ['id','company_name','address','website','note','skype','facebook','twitter','linkedin','gst_number'];
 
