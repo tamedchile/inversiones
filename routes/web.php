@@ -991,6 +991,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::resource('profile', 'ClientProfileController');
         Route::get('form', ['uses' => 'ClientProfileController@form'])->name('form');
+        Route::get('misPropiedades', ['uses' => 'ClientProfileController@misPropiedades'])->name('misPropiedades');
+        Route::get('guardarDatosProyectos', ['uses' => 'ClientProfileController@guardarDatosProyectos'])->name('guardarDatosProyectos');
 
         Route::get('personalesEss', ['uses' => 'ClientProfileController@guardarDatosPersonales'])->name('personalesEss');
         Route::get('motivacionEss', ['uses' => 'ClientProfileController@guardarDatosMotivacion'])->name('motivacionEss');

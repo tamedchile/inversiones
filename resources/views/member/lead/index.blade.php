@@ -61,6 +61,8 @@
                                 <th>{{$dato['numero']}}</th>
                                 @if($dato['llamado'] === 0)
                                 <th> <center> <button onclick="usuarioContesto({{ $dato['id'] }})"  id="save-form" class="btn btn-success"><i class="fa fa-check"></i> Contestó</button> </center> </th>
+                                @elseif($dato['confirmacion'] === 1)
+                                <th> <center> <button onclick="verDatos({{ $dato['id'] }})"  id="save-form" class="btn btn-success">Ver datos</button> </center> </th>
                                 @else
                                 <th></th>
                                 @endif
@@ -219,6 +221,14 @@
 
             },
         });   
+
+        }
+
+
+        function verDatos(id){
+
+
+            alert(id);
 
         }
     </script>

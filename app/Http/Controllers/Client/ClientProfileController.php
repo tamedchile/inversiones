@@ -17,6 +17,10 @@ use App\CreditoConsumo;
 use App\Propiedad;
 use App\CreditoHipotecario;
 use App\Tareas;
+use App\DatoProyectos;
+use App\FechaRespuesta;
+use App\ProjectMember;
+use App\Project;
 use DB;
 use Mail;
 use Illuminate\Support\Facades\File;
@@ -42,8 +46,10 @@ class ClientProfileController extends ClientBaseController
      * @return \Illuminate\Http\Response
      */
     public function index() {
+
         $this->userDetail = auth()->user();
         $this->clientDetail = ClientDetails::where('user_id', '=', $this->userDetail->id)->first();
+
         return view('client.profile.edit', $this->data);
     }
 
@@ -1995,6 +2001,10 @@ class ClientProfileController extends ClientBaseController
          $tareas->save();
 
         $eess->paso = $eess->paso+1;
+
+        $cliente->eess = 1;
+
+         $cliente->save();
        }
 
        $arrayDatos = $request->array;
@@ -2382,6 +2392,77 @@ class ClientProfileController extends ClientBaseController
       }
 
     }
+
+
+  public function misPropiedades(){
+
+    $this->userDetail = auth()->user();
+    $this->clientDetail = ClientDetails::where('user_id', '=', $this->userDetail->id)->first();
+
+    $proyectos = DatoProyectos::where('user_id', $this->clientDetail->id)->get();
+
+    return view('client.tasks.definicion_proyectos', $this->data)->with('proyectos',$proyectos);
+
+  }
+
+  public function guardarDatosProyectos(Request $request){
+
+    $id = $request->id;
+    $datos = $request->array;
+    $fecha_limite = $request->fecha_limite;
+
+    $fecha = new FechaRespuesta();
+
+    $fecha->fecha = $fecha_limite;
+    $fecha->user_id = $id;
+    $fecha->proceso = "Negociacion inmobiliaria";
+
+    $fecha->save();
+
+    foreach ($datos as $dato) {
+
+              
+      $datosProyecto = new DatoProyectos;
+
+      $datosProyecto->user_id = $id;
+      $datosProyecto->url = $dato['url'];
+      $datosProyecto->inmobiliaria = $dato['inmobiliaria'];
+      $datosProyecto->tipo_propiedad = $dato['tipoPropiedad'];
+      $datosProyecto->piso_preferencia = $dato['pisoPreferencia'];
+      $datosProyecto->orientacion = $dato['orientacion'];
+      $datosProyecto->cantidad_baños = $dato['cantBaños'];
+      $datosProyecto->cantidad_dormitorios = $dato['cantDormitorios'];
+      $datosProyecto->metros_cuadrados = $dato['cantDormitorios'];
+      $datosProyecto->observaciones = $dato['observaciones'];
+
+      $datosProyecto->save();
+
+
+    }
+
+    $cliente = ClientDetails::find($id);
+    $tareas = DB::table('tareas')->where('user_id', $cliente->user_id)->first();
+    DB::table('tareas')->where('id',$tareas->id)->decrement('tareas');
+
+    $proyecto = Project::where('client_id',$cliente->user_id )->first();
+    $miembros = ProjectMember::where('project_id', $proyecto->id)->first();
+    $asesor = User::find($miembros->user_id);
+
+
+    $datosEmail = array(
+      'nombre_cliente' => $cliente->pnombre.' '.$cliente->papellido.' '.$cliente->sapellido,
+      'email_asesor' => $asesor->email,
+      'nombre_asesor' => $asesor->name
+    );
+
+    Mail::send('mail.datos_proyecto_completados', $datosEmail, function($message) use ($datosEmail){
+      $message->from('inversiones@tamed.global', 'TAMED Inversiones');
+      $message->to($datosEmail['email_asesor'])->subject("Cliente completo datos de proyecto");
+    });
+
+    return 1;
+
+  }
 
     
 

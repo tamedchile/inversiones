@@ -14,6 +14,8 @@ use App\LeadStatus;
 use App\ClientDetails;
 use App\ProjectMember;
 use App\Project;
+use App\DatoProyectos;
+use DB;
 use Mail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -77,11 +79,20 @@ class MemberLeadController extends MemberBaseController
 
                     $cliente = ClientDetails::where('user_id', $cliente_id->client_id)->first();
 
+                    $datosProyecto = DatoProyectos::where('user_id',$cliente->id)->get();
+
+                    if(count($datosProyecto)>0){
+                        $confirmacion = 1;
+                    }else{
+                        $confirmacion = 0;
+                    }
+
                     $arr = array(
                                 "id" => $cliente->user_id,
                                 "nombre" => $cliente->pnombre." ".$cliente->papellido." ".$cliente->sapellido,
                                 "numero" => $cliente->mobile,
-                                "llamado" => $cliente->llamado
+                                "llamado" => $cliente->llamado,
+                                "confirmacion" => $confirmacion
                             );
 
                     array_push($datos, $arr);
@@ -92,7 +103,6 @@ class MemberLeadController extends MemberBaseController
             }
 
         }
-
 
         return view('member.lead.index', $this->data)->with('cliente', $datos);
     }
@@ -468,7 +478,7 @@ class MemberLeadController extends MemberBaseController
         }
 
         $follow = LeadFollowUp::where('lead_id', $leadId)->orderBy($request->sortBy, $order);
-
+   
 
         $this->lead->follow = $follow->get();
 
@@ -486,6 +496,19 @@ class MemberLeadController extends MemberBaseController
 
         $cliente->llamado = 1;
 
+
+        $tareas = DB::table('tareas')->where('user_id', $cliente->user_id)->first();
+
+        if($tareas->tareas == 0){
+
+            DB::table('tareas')->where('id',$tareas->id)->increment('tareas');
+
+        }
+
+        
+
+        $cliente->llamado = 1;
+
         try {
 
             $datosEmail = array(
@@ -495,7 +518,7 @@ class MemberLeadController extends MemberBaseController
         
              Mail::send('mail.llamada_contestada', $datosEmail, function($message) use ($datosEmail){
                $message->from('inversiones@tamed.global', 'TAMED Inversiones');
-               $message->to($datosEmail['email_cliente'])->subject("Gracias por contestar el llamado");
+               $message->to($datosEmail['email_cliente'])->subject("Gracias por haber recibido nuestra asesoría");
              });
 
             $cliente->save();

@@ -7,6 +7,8 @@ use App\ModuleSetting;
 use App\Project;
 use App\ClientDetails;
 use App\Task;
+use App\Eess;
+use App\FechaRespuesta;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -102,7 +104,13 @@ class ClientTasksController extends ClientBaseController
               abort(403);
           }
           $this->clientDetail = ClientDetails::where('user_id', '=', $this->user->id)->first();
-          return view('client.tasks.edit', $this->data);
+
+          $monto = Eess::where('user_id', $this->clientDetail->id)->first();
+
+          $fechaRespuesta = FechaRespuesta::where('user_id',$this->clientDetail->id)->first();
+
+
+          return view('client.tasks.edit', $this->data)->with('monto',$monto)->with('fechaRespuesta',$fechaRespuesta);
 
         }else{
 
@@ -118,7 +126,10 @@ class ClientTasksController extends ClientBaseController
           }
           $this->clientDetail = ClientDetails::where('user_id', '=', $this->user->id)->first();
 
-          return view('client.tasks.edit', $this->data);
+          $monto = Eess::where('user_id', $this->clientDetail->id)->first();
+          $fechaRespuesta = FechaRespuesta::where('user_id',$this->clientDetail->id)->first();
+
+          return view('client.tasks.edit', $this->data)->with('monto',$monto)->with('fechaRespuesta',$fechaRespuesta);
 
         }
     }

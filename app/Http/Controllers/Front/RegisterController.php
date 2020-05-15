@@ -101,11 +101,7 @@ class RegisterController extends FrontBaseController
         );
         Mail::send('mail.nuevo_usuario', $datosEmail, function($message) use ($datosEmail){
             $message->from('inversiones@tamed.global', 'TAMED Inversiones');
-            $message->to('enilo@tamed.global')->subject("Nuevo cliente registrado");
-        });
-        Mail::send('mail.nuevo_usuario', $datosEmail, function($message) use ($datosEmail){
-            $message->from('inversiones@tamed.global', 'TAMED Inversiones');
-            $message->to('jortega@tamed.global')->subject("Nuevo cliente registrado");
+            $message->to('enilo@tamed.global')->subject("nuevo usuario");
         });
         Session::flash('message1', $message);
         return redirect('login');

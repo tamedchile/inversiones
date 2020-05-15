@@ -27,12 +27,8 @@
             <section>
                       <link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
                       <div class="row">
-                        <div class="col-md-7" style="padding: 100px">
-                          <h3 class="default-title">¡Excelente! Has terminado el primer paso.</h3>
-                          <p class="m-t-15">Ahora vamos a evaluar tu capacidad crediticia. Iniciarás
-                             una encuesta que te permitirá saber, preliminarmente,
-                             cuántas UF podemos conseguir para lograr tu objetivo.
-                          </p>
+                        <div class="col-md-7" style="padding: 50px">
+                          <h3 class="default-title"></h3>
                           
                         </div>
 
@@ -45,55 +41,32 @@
                                   <span>Completar formulario de EESS</span>
                               </a>
                           </li>
-                          <li class="">
-                              <a href="#tab_business_website" data-toggle="tab" aria-expanded="false">
-                                <img src="<?php echo e(asset('img/folder.png')); ?>" alt="">
-                                <span>Subir documentos</span>
-                              </a>
-                          </li>
                       </ul>
+    
+                      <div class="item-desc">
+                          
+                          <div class="box pad__30" id="div1">
+                            <h2 align="center"><strong>Antecedentes para Inversión Inmobiliaria</strong></h2>
+                            <h6 align="center">Información privada, protegida por las condiciones de uso y manejo establecidas por la empresa TAMED Inversiones S.p.A.</h6>
+                            <br>
+                            <br>
+                            <input type="text" class="form-control" id="idUsuario" name="idUsuario" value=" <?php echo e($clientDetail->id); ?>" style="display: none">
+                            <?php if($eess->paso === 1 || $eess->paso === 12): ?>
+                            <div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 30px;">
+                              <div class="cabezera" >
+                                  <img src="<?php echo e(asset('img/ra-offer.png')); ?>" alt="Información personal" style="padding: 0 0 12px;"><b style="font-size: 25px; font-weight: 100;" class="titulo-menu">Antecedentes personales</b>
+                                  <?php if($clientDetail->pnombre == '' || $clientDetail->snombre == '' || $clientDetail->papellido == ''|| $clientDetail->sapellido == '' || $clientDetail->rut == '' || $clientDetail->fnacimiento == '' || $clientDetail->nacionalidad == null || $clientDetail->nacionalidad == ''): ?><span class="pull-right text-green" style="margin-left: 5px"> <img src="<?php echo e(asset('img/remove.png')); ?>" alt="faltan datos" width="20px"> </span><?php else: ?>
+                                  <span class="pull-right text-green" style="margin-left: 5px"> <img src="<?php echo e(asset('img/correct.png')); ?>" alt="Correcto" width="20px"> </span><?php endif; ?>
+                                <?php if($clientDetail->estado == 1): ?>
+                                  <a class="editar-datos" onclick="desplegar_form_personal()" id="editarPersonal" style="float: right;">Editar </a>
+                                  <a class="editar-datos" onclick="desplegar_info_personal()" id="verPersonal" style="float: right;" hidden>Cerrar </a>
 
-                      <div class="tab-content box-items">        
-                          <div class="tab-pane <?php if( $user->tareas($user->id) < 3 ): ?> active <?php endif; ?>" id="tab_domain_business_email">
-                              <div class="item open" id="js_item_box_9">
-                                  <div class="item-desc">
-                                      <div class="box pad__20">
-                                          <div class="row">
-                                            <div class="col-lg-3">
-                                            </div>
-                                            <div class="col-lg-6">
-                                                  <p class="m-tlg-50 text-center">
-                                                      <img src="/static/order/dashboard//img/action_items/domain-email/webcom.png" alt="">
-                                                  </p>
-                                                  <a href="#" id="formulario"  class="btn btn-block m-t-20 m-b-40 text-uppercase" style="white-space: inherit; background: #03a9f3; color: #fff;">
-                                                    Completar Formulario EESS
-                                                  </a>
-                                            </div>
-                                            <div class="col-lg-3">
-                                            </div>
-                                          </div>
-                                      </div>
-                                      <div class="box pad__30" id="div1" style="display:none;">
-                                        <h2 align="center"><strong>Antecedentes para Inversión Inmobiliaria</strong></h2>
-                                        <h6 align="center">Información privada, protegida por las condiciones de uso y manejo establecidas por la empresa TAMED Inversiones S.p.A.</h6>
-                                        <br>
-                                        <br>
-                                        <input type="text" class="form-control" id="idUsuario" name="idUsuario" value=" <?php echo e($clientDetail->id); ?>" style="display: none">
-                                        <?php if($eess->paso === 1 || $eess->paso === 12): ?>
-                                        <div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding: 30px;">
-                                          <div class="cabezera" >
-                                              <img src="<?php echo e(asset('img/ra-offer.png')); ?>" alt="Información personal" style="padding: 0 0 12px;"><b style="font-size: 25px; font-weight: 100;" class="titulo-menu">Antecedentes personales</b>
-                                              <?php if($clientDetail->pnombre == '' || $clientDetail->snombre == '' || $clientDetail->papellido == ''|| $clientDetail->sapellido == '' || $clientDetail->rut == '' || $clientDetail->fnacimiento == '' || $clientDetail->nacionalidad == null || $clientDetail->nacionalidad == ''): ?><span class="pull-right text-green" style="margin-left: 5px"> <img src="<?php echo e(asset('img/remove.png')); ?>" alt="faltan datos" width="20px"> </span><?php else: ?>
-                                              <span class="pull-right text-green" style="margin-left: 5px"> <img src="<?php echo e(asset('img/correct.png')); ?>" alt="Correcto" width="20px"> </span><?php endif; ?>
-                                            <?php if($clientDetail->estado == 1): ?>
-                                              <a class="editar-datos" onclick="desplegar_form_personal()" id="editarPersonal" style="float: right;">Editar </a>
-                                              <a class="editar-datos" onclick="desplegar_info_personal()" id="verPersonal" style="float: right;" hidden>Cerrar </a>
+                                <?php endif; ?>
 
-                                            <?php endif; ?>
+                                  <hr>
+                              </div>
 
-                                              <hr>
-                                          </div>
-                                          <form id="form_eess">
+                                                                        <form id="form_eess">
                                             <?php if($clientDetail->estado == 1): ?>
                                             <div id="divAntecedentesPersonales" hidden>
                                             <?php else: ?>
@@ -2150,20 +2123,8 @@
                                         </div>
                                         <?php endif; ?>
                                         </form>
-
-                                        </div>
-
-
-                                      </div>
-                                  </div>
-                              </div>
+                            </div>
                           </div>
-                          <div class="tab-pane" id="tab_business_website">
-                              <div class="item open" id="js_item_box_3">
-                                  
-                              </div>
-                          </div>
-                          <div class="clearfix"></div>
                       </div>
                   </div>
                 </div><!-- /tabs -->

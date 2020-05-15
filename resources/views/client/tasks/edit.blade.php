@@ -28,102 +28,75 @@
                       <link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
                       <div class="row">
                         <div class="col-md-7" style="padding: 100px; padding-left: 30px;">
-                          @if( $user->tareas($user->id) === 3)
-                          <h3 class="default-title">Bienvenido a TAMED, el portal digital de tus inversiones inmobiliarias</h3>
-                          @elseif($user->tareas($user->id) === 2 )
-                          <h4 class="default-title">¡Excelente! Has terminado el primer paso.</h4>
-                          @elseif($user->tareas($user->id) === 1)
-                          <h4 class="default-title">¡Excelente! Gracias por completar el formulario.</h4>
-                          @elseif($user->tareas($user->id) === 0)
-                          <h4 class="default-title">¡Excelente! ... </h4>
+
+                          @if($clientDetail->llamado !== 1)
+
+                             @if( $user->tareas($user->id) === 3)
+                             <h3 class="default-title">Bienvenido a TAMED, el portal digital de tus inversiones inmobiliarias</h3>
+                             @elseif($user->tareas($user->id) === 2 )
+                             <h4 class="default-title">¡Excelente! Has terminado el primer paso.</h4>
+                             @elseif($user->tareas($user->id) === 1)
+                             <h4 class="default-title">¡Excelente! Gracias por completar el formulario.</h4>
+                             @elseif($user->tareas($user->id) === 0)
+                             <h4 class="default-title">¡Excelente! ... </h4>
+                             @endif
+                             @if( $user->tareas($user->id) === 3)
+                             <p class="m-t-15">Nos alegra que estés tomando la decisión de comprar una propiedad.
+                               Te apoyaremos en todo este proceso haciéndolo más eficiente y seguro, para tu conveniencia 😀
+                               Comencemos completando los datos de tu cuenta.
+                             </p>
+                             @elseif($user->tareas($user->id) === 2 )
+                             <p class="m-t-15">Ahora vamos a evaluar tu capacidad crediticia. Iniciarás
+                                una encuesta que te permitirá saber, preliminarmente,
+                                cuántas UF podemos conseguir para lograr tu objetivo.
+                             </p>
+                             @elseif($user->tareas($user->id) === 1 )
+                             <p class="m-t-15">La informacion proporcionada nos sera de mucha utilidad para asesorarte de la mejor manera. 
+                               Ahora necesitamos que acredites la informacion proporcionada en base a los documentos solicitados.
+                             </p>
+                             @elseif($user->tareas($user->id) === 0 )
+                             <p class="m-t-15">Necesitamos contactarnos contigo, te pedimos que solicites una llamada por parte de tu asesor.
+                             Para esto <a onclick="solicitarLlamada()">has click aqui.</a></p>
+                             
+                             @endif
+
+                          @else
+
+                            @if($user->tareas($user->id) === 1)
+                              <h4 class="default-title">Gracias por haberte conectado con tu asesor financiero</h4>
+                              <p class="m-t-15">Ahora, necesitamos definir el proyecto en el que deseas invertir. Verifica todos los detalles que en los proyectos se especifican, especialmente los beneficios con que cuentan, para que podamos obtener las mejores condiciones.
+                             </p>
+                            @endif
+                            @if($user->tareas($user->id) === 0)
+                              <h4 class="default-title">¡Excelente decisión! Ahora vamos a negociar</h4>
+                              <p class="m-t-15">Siempre es bueno que nos hagan un cariño extra :) Con tu selección, desde ya nos ponemos manos a la obra en conseguir la propiedad que buscas, esperando lograr aún mejores condiciones con la inmobiliaria. Te mantendremos informado muy pronto.
+                             </p>
+
+                             <input type="text" class="form-control" id="fecha_limite" name="fecha_limite" value=" {{ $fechaRespuesta->fecha }}" style="display: none">
+
+                             <h4 class="default-title" id="countdown"></h4>
+
+                            @endif
+
                           @endif
-                          @if( $user->tareas($user->id) === 3)
-                          <p class="m-t-15">Nos alegra que estés tomando la decisión de comprar una propiedad.
-                            Te apoyaremos en todo este proceso haciéndolo más eficiente y seguro, para tu conveniencia 😀
-                            Comencemos completando los datos de tu cuenta.
-                          </p>
-                          @elseif($user->tareas($user->id) === 2 )
-                          <p class="m-t-15">Ahora vamos a evaluar tu capacidad crediticia. Iniciarás
-                             una encuesta que te permitirá saber, preliminarmente,
-                             cuántas UF podemos conseguir para lograr tu objetivo.
-                          </p>
-                          @elseif($user->tareas($user->id) === 1 )
-                          <p class="m-t-15">La informacion proporcionada nos sera de mucha utilidad para asesorarte de la mejor manera. 
-                            Ahora necesitamos que acredites la informacion proporcionada en base a los documentos solicitados.
-                          </p>
-                          @elseif($user->tareas($user->id) === 0 )
-                          <p class="m-t-15">Necesitamos contactarnos contigo, te pedimos que solicites una llamada por parte de tu asesor.
-                          Para esto <a onclick="solicitarLlamada()">has click aqui.</a></p>
-                          
-                          @endif
+
                         </div>
-                        <div class="col-md-3" >
-
-                            <?php
-
-                              if ($project->completion_percent < 50) {
-                              $statusColor = '#F4A58C';
-                              }
-                              elseif ($project->completion_percent >= 50 && $project->completion_percent < 75) {
-                              $statusColor = '#FAFF60';
-                              }
-                              else {
-                              $statusColor = '#58DB8C';
-                              }
-                              ?>
-                            <div class="gauge">
-                              <ul class="meter">
-                                <li class="low" style="background-color: <?php  echo $statusColor;?>;"></li>
-                                <li class="normal" style="background-color: <?php  echo $statusColor;?>"></li>
-                                <li class="high" style="background-color: <?php  echo $statusColor;?>"></li>
-                              </ul>
-
-                              <div class="dial">
-                                  <div class="inner">
-                                    <div class="arrow">
-                                    </div>
-                                  </div>
-                              </div>
-
-                              <div class="value">
-                                0%
-                              </div>
-
-                            </div>
-
-                            <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
-                            <script type="text/javascript">
-                          var dial = $(".dial .inner");
-                          var gauge_value = $(".gauge .value");
-
-                            function rotateDial()
-                            {
-                              var deg = 0;
-                              var value = <?php echo $project->completion_percent; ?>;
-                              deg = (value * 177.5) / 100;
-
-                              gauge_value.html(value + "%");
-
-                              dial.css({'transform': 'rotate('+deg+'deg)'});
-                                dial.css({'-ms-transform': 'rotate('+deg+'deg)'});
-                                dial.css({'-moz-transform': 'rotate('+deg+'deg)'});
-                                dial.css({'-o-transform': 'rotate('+deg+'deg)'});
-                                dial.css({'-webkit-transform': 'rotate('+deg+'deg)'});
-                            }
-
-                          setInterval(rotateDial, 2000);
-                        </script>
-                            <div class="sttabs tabs-style-line " style="display: block;margin: 0 auto;width: 30%;">
+                        <div class="col-md-4" >
+                          <div class="col-md-12" style="padding: 100px; padding-left: 30px;">
 
 
+                            @if($user->tareas($user->id) < 2)
 
-                              <h5>@lang('app.completed')<span class="pull-right">{{  $project->completion_percent }}%</span></h5>
+                              <h4 class="default-title"> Capacidad preliminar: </h4> <p class="m-t-15">{{ $monto->monto_preliminar }} </p>
 
-                            </div>
+                            @endif
+
+                          </div>
 
                         </div>
 
                     </div>
+                    
                     <div class="wizard">
                       <ul class="nav nav-tabs">
                           @if ($clientDetail->pnombre == '' || $clientDetail->snombre == '' || $clientDetail->papellido == ''|| $clientDetail->sapellido == '' || $clientDetail->mobile == '' || $clientDetail->company_name == '' || $clientDetail->address == '' || $clientDetail->rut == '' || $clientDetail->fnacimiento == '' || $clientDetail->comuna == '' || $clientDetail->ciudad == '' ||  $clientDetail->cuentabancaria == '' || $clientDetail->banco == '' || $clientDetail->tipocuentabancaria == '')
@@ -133,25 +106,47 @@
                               </a>
                           </li>
                           @endif
-                          <li class="@if( $user->tareas($user->id) < 3 ) active @endif">
+                          @if($clientDetail->eess == 0)
+                          <li class="active">
                               <a href="#tab_domain_business_email" data-toggle="tab" aria-expanded="false">
                                   <img src="{{asset('img/form.png')}}" alt="">
                                   <span>Diligencia el formulario de EESS</span>
                               </a>
                           </li>
-                          <li class="">
-                              <a href="#tab_business_website" data-toggle="tab" aria-expanded="false">
-                                <img src="{{asset('img/folder.png')}}" alt="">
-                                <span>Subir documentos</span>
-                              </a>
-                          </li>
+                          @endif
+                          @if($clientDetail->llamado !== 1)
+
+                            @if($user->tareas($user->id) === 1 )
+
+                              <li class="active">
+                                  <a href="#tab_business_website" data-toggle="tab" aria-expanded="false">
+                                    <img src="{{asset('img/folder.png')}}" alt="">
+                                    <span>Subir documentos</span>
+                                  </a>
+                              </li>
+
+                            @endif
+
+                          @else
+
+                            @if($user->tareas($user->id) === 1 )
+
+                              <li class="active">
+                                  <a href="#tab_definir_proyecto" data-toggle="tab" aria-expanded="false">
+                                    <img src="{{asset('img/edificio.png')}}" alt="">
+                                    <span>Definir Proyecto</span>
+                                  </a>
+                              </li>
+
+                            @endif
+
+                          @endif
                       </ul>
                       <div class="tab-content box-items">
                           <div class="tab-pane @if ($clientDetail->pnombre == '' || $clientDetail->snombre == '' || $clientDetail->papellido == ''|| $clientDetail->sapellido == '' || $clientDetail->mobile == '' || $clientDetail->company_name == '' || $clientDetail->address == '' || $clientDetail->rut == '' || $clientDetail->fnacimiento == '' || $clientDetail->comuna == '' || $clientDetail->ciudad == '' || $clientDetail->fijo == '' || $clientDetail->cuentabancaria == '' || $clientDetail->banco == '' || $clientDetail->tipocuentabancaria == '') active  @endif" id="tab_tax">
                               <div class="item open" id="js_item_box_9">
                                   <div class="item-heading">
                                       <span class="title">Algunos de los datos e tu perfil aún no han sido diligenciados</span>
-                                      <span class="explain pull-right">You chose this selection with your order.</span>
                                   </div>
                                   <div class="item-desc">
                                       <h4>Debes ir a tu perfil y completarlos</h4>
@@ -186,7 +181,7 @@
                               </div>
                           </div>
 
-                          <div class="tab-pane @if( $user->tareas($user->id) < 3 ) active @endif" id="tab_domain_business_email">
+                          <div class="tab-pane @if( $clientDetail->eess == 0 ) active @endif" id="tab_domain_business_email">
                               <div class="item open" id="js_item_box_9">
                                   <div class="item-heading">
                                       <span class="title">Debes diligenciar el formulario para poder evaluar tu capacidad preliminar de inversión</span>
@@ -254,33 +249,6 @@
                                       <div class="box pad__30">
                                           <div class="row">
                                               <div class="col-lg-6">
-                                                  <h4 class="m-b-30">The Standard Package Includes:</h4>
-                                                  <ul class="list-unstyled package-includes">
-                                                      <li class="developer">
-                                                          <div class="t">Website built by Professional Developers</div>
-                                                          <p>
-                                                              Choose from over 20 custom website designs and get them customized to your liking from our experienced designers.
-                                                          </p>
-                                                      </li>
-                                                      <li class="revisions">
-                                                          <div class="t">Unlimited Revisions</div>
-                                                          <p>You can request as many changes as you like until the design is finalized. Our team will work with you until you are fully satisfied.</p>
-                                                      </li>
-                                                      <li class="hosting">
-                                                          <div class="t">Reliable Hosting</div>
-                                                          <p>Our platform is built upon Amazon's AWS cloud service, providing our customers extreme reliability and uptime even when there is a huge spike in website visitors.</p>
-                                                      </li>
-                                                      <li class="website-domain">
-                                                          <div class="t">Free Website Domain (Annual Subscribers)</div>
-                                                          <p>
-                                                              If you're an Annual Subscribers, you will be given the choice to select a free domain which will also renewed each year if you keep on hosting with Snapweb.com
-                                                          </p>
-                                                      </li>
-                                                      <li class="email-setup">
-                                                          <div class="t">Assistance with Email Setup</div>
-                                                          <p>Our team will assist with setting up your email account so that it works with your domain. *(Email package needs to be purchased from a reputed email provider.)</p>
-                                                      </li>
-                                                  </ul>
                                               </div>
                                               <div class="col-lg-6 right">
                                                   <p class="m-tlg-50 text-center">
@@ -290,27 +258,40 @@
                                                   <a href="javascript:void(0)" class="btn btn-green btn-block m-t-b-40 text-uppercase" style="white-space: inherit;">
                                                     Subir documentos
                                                   </a>
-                                                  <p class="bold">
-                                                      <span>All websites are subject to snapweb.com’s $20/month hosting rate.</span>
-                                                      <span class="m-t-20" style="display: block">
-                                                          Pay $0 with your waived setup fee (regularly $499) included with your Platinum package purchase.
-                                                        </span>
-                                                  </p>
-                                                  <hr class="m-t-b-35" style="margin-left: 0; margin-right: 0">
-                                                  <div>
-                                                      <div class="checkbox checkbox-default">
-                                                          <input type="checkbox" class="no_longer" id="chk_no_longer_require_website" value="toggle_business_website_btn">
-                                                          <label for="chk_no_longer_require_website">I no longer require a business website.</label>
-                                                      </div>
-                                                      <div class="clearfix"></div>
-                                                      <button onclick="ActionItemComponent.noLonger(3, 'Snapweb')" class="btn btn-round btn-green btn-xs m-t-15 hide" style="padding:8px 25px">Confirm</button>
-                                                  </div>
                                               </div>
                                           </div>
                                       </div>
                                   </div>
                               </div>
                           </div>
+
+                            <div class="tab-pane @if($clientDetail->llamado == 1) @if($user->tareas($user->id) === 1 ) active @endif @endif" id="tab_definir_proyecto">
+                              <div class="item open" id="js_item_box_9">
+                                  <div class="item-heading">
+                                      <span class="title"> </span>
+                                  </div>
+                                  <div class="item-desc">
+                                      <div class="box pad__30">
+                                          <div class="row">
+                                            <div class="col-md-2 ">
+                                            </div>
+                                              <div class="col-md-8 ">
+                                                  <p class="m-tlg-50 text-center">
+                                                      <img src="/static/order/dashboard//img/action_items/domain-email/webcom.png" alt="">
+                                                  </p>
+                                                  <a href="#" onclick="definirProyecto()" class="btn btn-green btn-block m-t-20 m-b-40 text-uppercase" style="white-space: inherit;">
+                                                    Ir al Portal Inmobiliario de TAMED | Completar información del proyecto
+                                                  </a>
+
+                                              </div>
+                                              <div class="col-md-2 ">
+                                            </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
                           <div class="clearfix"></div>
                       </div>
                   </div>
@@ -467,5 +448,56 @@
 
       }
 
+      function definirProyecto(){
+
+
+        window.open('https://tamed.global/cl/portafolio');
+
+        window.location.href = "{{ route('client.misPropiedades', 1) }}";
+
+      }
+
     </script>
+
+    <script>
+
+      var fecha = $.trim($('#fecha_limite').val());
+
+
+      if(fecha != ""){
+
+        var end = new Date(fecha);
+    
+        var _second = 1000;
+        var _minute = _second * 60;
+        var _hour = _minute * 60;
+        var _day = _hour * 24;
+        var timer;
+    
+        function showRemaining() {
+            var now = new Date();
+            var distance = end - now;
+            if (distance < 0) {
+    
+                clearInterval(timer);
+                document.getElementById('countdown').innerHTML = 'EXPIRED!';
+    
+                return;
+            }
+            var days = Math.floor(distance / _day);
+            var hours = Math.floor((distance % _day) / _hour);
+            var minutes = Math.floor((distance % _hour) / _minute);
+            var seconds = Math.floor((distance % _minute) / _second);
+    
+            document.getElementById('countdown').innerHTML = days + ' dias  ';
+            document.getElementById('countdown').innerHTML += hours + ' : ';
+            document.getElementById('countdown').innerHTML += minutes + ' : ';
+            document.getElementById('countdown').innerHTML += seconds ;
+        }
+    
+        timer = setInterval(showRemaining, 1000);
+
+      }
+    </script>
+
 @endpush

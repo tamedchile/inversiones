@@ -18,8 +18,8 @@
                     <tr>
                       <td style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;padding:35px">
                         <span class="im">
-                          <h1 style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#2f3133;font-size:19px;font-weight:bold;margin-top:0;text-align:left">Monto preliminar:</h1>
-                          <p>$</p>
+                          <h1 style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#2f3133;font-size:19px;font-weight:bold;margin-top:0;text-align:left">¡Hola <?php echo e($nombre_asesor); ?>!,</h1>
+                          <p>Te informamos que el cliente <?php echo e($nombre_cliente); ?>, ha completado los datos del proyecto de preferencia para que comiences las negociaciones con la inmobiliaria. </p>
                            <table align="center" width="100%" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:30px auto;padding:0;text-align:center;width:100%">
                              <tbody>
                                <tr>
@@ -71,4 +71,4 @@
          <div class="yj6qo"></div>
          <div class="adL"> </div>
        </div>
-<?php /**PATH D:\laragon\www\inversiones\resources\views/mail/nuevo_usuario.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\laragon\www\inversiones\resources\views/mail/datos_proyecto_completados.blade.php ENDPATH**/ ?>

@@ -59,6 +59,8 @@
                                 <th><?php echo e($dato['numero']); ?></th>
                                 <?php if($dato['llamado'] === 0): ?>
                                 <th> <center> <button onclick="usuarioContesto(<?php echo e($dato['id']); ?>)"  id="save-form" class="btn btn-success"><i class="fa fa-check"></i> Contestó</button> </center> </th>
+                                <?php elseif($dato['confirmacion'] === 1): ?>
+                                <th> <center> <button onclick="verDatos(<?php echo e($dato['id']); ?>)"  id="save-form" class="btn btn-success">Ver datos</button> </center> </th>
                                 <?php else: ?>
                                 <th></th>
                                 <?php endif; ?>
@@ -186,7 +188,7 @@
                     };
                     toastr.success('Correo enviado correctramente');
 
-                    setTimeout(location.reload(),5000); 
+                    setTimeout(location.reload(),7000); 
 
                 }else{
 
@@ -206,9 +208,25 @@
 
                 console.log(xhr.responseText);
 
-                alert(0);
+                toastr.options = {
+                    "debug": false,
+                    "newestOnTop": false,
+                    "positionClass": "toast-top-center",
+                    "closeButton": true,
+                    "toastClass": "animated fadeInDown",
+                };
+                toastr.error('Error desconocido.');
+
             },
         });   
+
+        }
+
+
+        function verDatos(id){
+
+
+            alert(id);
 
         }
     </script>

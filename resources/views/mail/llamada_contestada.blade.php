@@ -18,8 +18,8 @@
                     <tr>
                       <td style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;padding:35px">
                         <span class="im">
-                          <h1 style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#2f3133;font-size:19px;font-weight:bold;margin-top:0;text-align:left">¡Gracias {{$nombre_cliente}}!,</h1>
-                          <p>por contestar el llamado.</p>
+                          <h1 style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#2f3133;font-size:19px;font-weight:bold;margin-top:0;text-align:left">¡{{$nombre_cliente}}!,</h1>
+                          <p>Gracias una vez más por haberte contactado con nosotros y permitirnos asesorarte en la compra de tu propiedad. ¡Sigamos adelante con el proyecto!</p>
                            <table align="center" width="100%" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:30px auto;padding:0;text-align:center;width:100%">
                              <tbody>
                                <tr>
